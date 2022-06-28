@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on Moeomu Blog</title><link>https://blog.moeomu.com/tags/linux/</link><description>Recent content in Linux on Moeomu Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 09 Nov 2021 09:22:01 +0800</lastBuildDate><atom:link href="https://blog.moeomu.com/tags/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>Problems Encountered In Installing Arch on ROGLaptop</title><link>https://blog.moeomu.com/posts/problems-encountered-in-installing-arch-on-roglaptop/</link><pubDate>Tue, 09 Nov 2021 09:22:01 +0800</pubDate><guid>https://blog.moeomu.com/posts/problems-encountered-in-installing-arch-on-roglaptop/</guid><description>&lt;p>Source of this article: &lt;a class="link" href="https://blog.moeomu.com/posts/problems-encountered-in-installing-arch-on-roglaptop/" >MoeomuBlog&lt;/a>&lt;/p>
+&lt;h2 id="no-display-after-installing-nvidia-graphics-card">No display after installing NVIDIA graphics card&lt;/h2>
+&lt;h3 id="installed-packages">Installed packages&lt;/h3>
+&lt;ul>
+&lt;li>&lt;code>xf86-video-intel&lt;/code>&lt;/li>
+&lt;li>&lt;code>mesa&lt;/code>&lt;/li>
+&lt;li>&lt;code>nvidia&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h3 id="solution">Solution&lt;/h3>
+&lt;ul>
+&lt;li>remove package: &lt;code>sudo pacman -R xf86-video-intel&lt;/code>&lt;/li>
+&lt;li>remove xconfig: &lt;code>sudo rm /etc/X11/xorg.conf&lt;/code>&lt;/li>
+&lt;li>edit xconfig: &lt;code>sudo vim /etc/X11/xorg.conf.d/10-nvidia-drm-outputclass.conf&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>10-nvidia-drm-outputclass.conf&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">Section &amp;#34;OutputClass&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Identifier &amp;#34;intel&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> MatchDriver &amp;#34;i915&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Driver &amp;#34;modesetting&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">EndSection
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Section &amp;#34;OutputClass&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Identifier &amp;#34;nvidia&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> MatchDriver &amp;#34;nvidia-drm&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Driver &amp;#34;nvidia&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Option &amp;#34;AllowEmptyInitialConfiguration&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Option &amp;#34;PrimaryGPU&amp;#34; &amp;#34;yes&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ModulePath &amp;#34;/usr/lib/nvidia/xorg&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ModulePath &amp;#34;/usr/lib/xorg/modules&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">EndSection
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>reboot&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>More references: &lt;a class="link" href="https://wiki.archlinux.org/title/PRIME" target="_blank" rel="noopener"
+>ArchWiki-PRIME&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="no-sound">No sound&lt;/h2>
+&lt;ul>
+&lt;li>edit file:&lt;code>sudo vim /etc/modprobe.d/alsa-base.conf&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>alsa-base.conf&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">options snd-hda-intel model=asus-zenbook
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Problems that still exist: The volume can only be 0% or 100%, but the application volume can be adjusted individually.&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>More references: &lt;a class="link" href="https://askubuntu.com/questions/1276428/no-sound-alc294-asus-rog-strix-512-ubuntu-20-04-01" target="_blank" rel="noopener"
+>No sound ALC294 Asus ROG Strix 512 Ubuntu 20.04.01&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="the-wireless-network-is-unstable">The wireless network is unstable&lt;/h2>
+&lt;h3 id="installed-packages-1">Installed packages&lt;/h3>
+&lt;ul>
+&lt;li>&lt;code>dhcpcd&lt;/code>&lt;/li>
+&lt;li>&lt;code>NetworkManager&lt;/code>&lt;/li>
+&lt;li>&lt;code>iwd&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h3 id="solution-1">Solution&lt;/h3>
+&lt;ul>
+&lt;li>stop and disable service:
+&lt;ul>
+&lt;li>&lt;code>sudo systemctl stop dhcpcd&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo systemctl disable dhcpcd&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo systemctl stop iwd&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo systemctl disable iwd&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>remove package: &lt;code>sudo pacman -R dhcpcd&lt;/code>&lt;/li>
+&lt;li>reboot&lt;/li>
+&lt;/ul>
+&lt;h3 id="fundamental-problem">Fundamental problem&lt;/h3>
+&lt;p>The fundamental problem is that dhcpcd conflicts with NetworkManager.&lt;/p></description></item><item><title>Problem summary of installing Ubuntu on AsusStrixScarG532</title><link>https://blog.moeomu.com/posts/problem-summary-of-installing-ubuntu-on-asusstrixscarg532/</link><pubDate>Sat, 16 Oct 2021 11:22:01 +0800</pubDate><guid>https://blog.moeomu.com/posts/problem-summary-of-installing-ubuntu-on-asusstrixscarg532/</guid><description>&lt;p>Source of this article: &lt;a class="link" href="https://blog.moeomu.com/posts/problem-summary-of-installing-ubuntu-on-asusstrixscarg532/" >MoeomuBlog&lt;/a>&lt;/p>
+&lt;h2 id="install-nvidia-driver-on-ubuntu-with-securityboot">Install Nvidia driver on Ubuntu with SecurityBoot&lt;/h2>
+&lt;ul>
+&lt;li>Install Nvidia graphic card driver during install ubuntu
+&lt;ol>
+&lt;li>During installation, make sure to select the &lt;code>Install third-party software for graphics and Wi-Fi hardware and addition media formats&lt;/code> in &lt;code>Updates and other software&lt;/code> screen.&lt;/li>
+&lt;li>Select &lt;code>Configure Secure Boot&lt;/code>, and set password.&lt;/li>
+&lt;li>Continue Ubuntu installation as normal.&lt;/li>
+&lt;li>During the first reboot, &lt;code>Perform MOK management&lt;/code> screen will showup. Select &lt;code>Enroll MOK&lt;/code> option.&lt;/li>
+&lt;li>Select &lt;code>Continue&lt;/code>, then, &lt;code>Yes&lt;/code>.&lt;/li>
+&lt;li>&lt;code>Enroll the key(s)?&lt;/code> screen will present. Enter the password from Step 2.&lt;/li>
+&lt;li>OK and reboot.&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>Install the &amp;ldquo;third party&amp;rdquo; software option after skipped it in the ubuntu installer
+&lt;ol>
+&lt;li>&lt;code>sudo apt-get install ubuntu-restricted-extras&lt;/code>&lt;/li>
+&lt;li>Refer to above&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="sound-not-working">Sound Not Working&lt;/h2>
+&lt;ol>
+&lt;li>edit&lt;code>/etc/modprobe.d/alsa-base.conf&lt;/code>&lt;/li>
+&lt;li>Add a line &lt;code>options snd-hda-intel model=asus-zenbook&lt;/code> at the end of the file&lt;/li>
+&lt;/ol></description></item><item><title>Linux Kernel learning notes 001 Compiling and Booting Kernel</title><link>https://blog.moeomu.com/posts/linux-kernel-learning-notes-001-compiling-and-booting-kernel/</link><pubDate>Wed, 07 Jul 2021 11:20:00 +0800</pubDate><guid>https://blog.moeomu.com/posts/linux-kernel-learning-notes-001-compiling-and-booting-kernel/</guid><description>&lt;p>Source: &lt;a class="link" href="https://blog.moeomu.com/posts/linux-kernel-learning-notes-001-compiling-and-booting-kernel/" >Moeomu&amp;rsquo;s Blog&lt;/a>&lt;/p>
+&lt;h2 id="prepare-the-environment">Prepare the environment&lt;/h2>
+&lt;ul>
+&lt;li>Ubuntu 20.04 LTS&lt;/li>
+&lt;li>Linux 4.9.229&lt;/li>
+&lt;li>Busybox 1.33.0&lt;/li>
+&lt;li>qemu&lt;/li>
+&lt;/ul>
+&lt;h3 id="download-kernel-source-code-and-file-system-source-code">Download kernel source code and file system source code&lt;/h3>
+&lt;ul>
+&lt;li>Download &lt;code>linux-4.9.229.tar.gz&lt;/code> at the site &lt;a class="link" href="https://www.kernel.org" target="_blank" rel="noopener"
+>Kernel.org&lt;/a>.&lt;/li>
+&lt;li>Download &lt;code>busybox-1.33.0.tar.bz2&lt;/code> from the site &lt;a class="link" href="https://www.busybox.net/downloads" target="_blank" rel="noopener"
+>Busybox.net&lt;/a>.&lt;/li>
+&lt;li>Install qemu via apt: &lt;code>sudo apt install qemu-system-x86&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;h2 id="compilation">Compilation&lt;/h2>
+&lt;h3 id="compiling-the-kernel">Compiling the kernel&lt;/h3>
+&lt;ul>
+&lt;li>&lt;code>export ARCH=x86&lt;/code>。&lt;/li>
+&lt;li>&lt;code>make x86_64_defconfig&lt;/code>。&lt;/li>
+&lt;li>&lt;code>make menuconfig&lt;/code>。
+&lt;ul>
+&lt;li>Check &lt;code>General Settings -&amp;gt; Initial RAM file system and RAM disk (initramfs/initrd) support&lt;/code>.&lt;/li>
+&lt;li>Check &lt;code>Device Driver -&amp;gt; Block Devices -&amp;gt; RAM Block Device Support&lt;/code>.&lt;/li>
+&lt;li>Modify &lt;code>Device Driver -&amp;gt; Block Devices -&amp;gt; RAM Block Device Support -&amp;gt; (65536) default RAM disk size (kbytes)&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>If this step reports a &lt;code>fatal error: curses.h&lt;/code>, then install &lt;code>sudo apt install libncurses5-dev&lt;/code>.&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>
+&lt;p>The compiled kernel is placed in the&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>The compiled kernel is placed in the directory &lt;code>arch/x86/boot&lt;/code> under the file name &lt;code>bzImage&lt;/code>.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="compile-busybox">Compile busybox&lt;/h3>
+&lt;ul>
+&lt;li>Compile busybox
+&lt;ul>
+&lt;li>Check &amp;ldquo;Settings -&amp;gt; Build Options -&amp;gt; [*] Build Busybox as a static binary (no fragmented libraries)&amp;rdquo;.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>make &amp;amp;&amp;amp; make install&lt;/code>。&lt;/li>
+&lt;/ul>
+&lt;h2 id="packaged-file-system">Packaged file system&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;code>mkdir etc dev mnt&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>mkdir -p proc sys tmp&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>mkdir -p etc/init.d&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>vim etc/fstab&lt;/code>。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">proc /proc proc defaults 0 0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">tmpfs /tmp tmpfs defaults 0 0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sysfs /sys sysfs defaults 0 0
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;code>vim etc/init.d/rcS&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">echo&lt;/span> -e &lt;span class="s2">&amp;#34;Welcome to Moeomu Linux&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">/bin/mount -a
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">echo&lt;/span> -e &lt;span class="s2">&amp;#34;Remounting the root filesystem&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">mount -o remount rw /
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">mkdir -p /dev/pts
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">moutn -t devpts devpts /dev/pts
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">echo&lt;/span> /sbin/mdev &amp;gt; /proc/sys/kernel/hotplug
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">mdev -s
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;code>chmod 755 etc/init.d/rcS&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>vim etc/inittab&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">::sysinit:/etc/init.d/rcS
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">::respawn:-/bin/sh
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">::askfirst:-/bin/sh
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">::cttlaltdel:/bin/umount -a -r
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;code>chmod 755 etc/inittab&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>cd dev&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>sudo mknod console c 5 1&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>sudo mknod null c 1 3&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>sudo mknod tty1 c 4 1&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>The following code is executed line by line in the busybox source code directory&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#!/bin/bash
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>rm -rf rootfs.ext3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo rm -rf fs
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">dd &lt;span class="k">if&lt;/span>&lt;span class="o">=&lt;/span>/dev/zero &lt;span class="nv">of&lt;/span>&lt;span class="o">=&lt;/span>./rootfs.ext3 &lt;span class="nv">bs&lt;/span>&lt;span class="o">=&lt;/span>1M &lt;span class="nv">count&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">32&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">mkfs.ext3 rootfs.ext3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">mkdir fs
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo mount -o loop rootfs.ext3 ./fs
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo cp -rf ./_install/* ./fs
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo umount ./fs
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">gzip --best -c rootfs.ext3 &amp;gt; rootfs.img.gz
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>The final filesystem is generated: &lt;code>rootfs.img.gz&lt;/code>&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="running-the-system-with-qemu">Running the system with QEMU&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;code>qemu-system-x86_64 -kernel ./linux-4.9.229/arch/x86_64/boot/bzImage -initrd ./busybox-1.33.1/rootfs.img.gz -append &amp;quot;root=/dev/ram init=/linuxrc&amp;quot; -serial file:output.txt&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Previews are as follows&lt;/p>
+&lt;p>&lt;img src="https://z3.ax1x.com/2021/07/07/RHildI.png"
+loading="lazy"
+alt="RHildI.png"
+>&lt;/p>
+&lt;/li>
+&lt;/ul></description></item><item><title>Zsh Installation</title><link>https://blog.moeomu.com/posts/zsh-installation/</link><pubDate>Tue, 10 Nov 2020 19:43:00 +0800</pubDate><guid>https://blog.moeomu.com/posts/zsh-installation/</guid><description>&lt;p>zsh install and config&lt;/p>
+&lt;p>Source: &lt;a class="link" href="https://blog.moeomu.com/posts/zsh-installation/" >Moeomu&amp;rsquo;s blog&lt;/a>&lt;/p>
+&lt;h2 id="install-zsh">Install zsh&lt;/h2>
+&lt;ul>
+&lt;li>macOS: &lt;code>brew install zsh&lt;/code>&lt;/li>
+&lt;li>Linux
+&lt;ul>
+&lt;li>Arch Linux: &lt;code>sudo pacman -S zsh&lt;/code>&lt;/li>
+&lt;li>Ubuntu: &lt;code>sudo apt install zsh&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="clone-git-repo">Clone git repo&lt;/h2>
+&lt;ul>
+&lt;li>China mainland: &lt;code>git clone https://gitee.com/mirrors/oh-my-zsh.git&lt;/code>&lt;/li>
+&lt;li>Global: &lt;code>git clone https://github.com/ohmyzsh/ohmyzsh.git&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="config-zsh">config zsh&lt;/h2>
+&lt;h3 id="set-as-default-shell">set as default shell&lt;/h3>
+&lt;ul>
+&lt;li>Set default shell: &lt;code>chsh -s /usr/bin/zsh&lt;/code>&lt;/li>
+&lt;li>Rename: &lt;code>mv oh-my-zsh .oh-my-zsh&lt;/code>&lt;/li>
+&lt;li>Set user profile: &lt;code>cp .oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h3 id="auto-suggestions-plugin">auto suggestions plugin&lt;/h3>
+&lt;ul>
+&lt;li>&lt;code>git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions&lt;/code>&lt;/li>
+&lt;li>edit &lt;code>~/.zshrc&lt;/code>:
+&lt;ul>
+&lt;li>&lt;code>plugins=(git)&lt;/code>=&amp;gt;&lt;code>plugins=(git zsh-autosuggestions)&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul></description></item></channel></rss>

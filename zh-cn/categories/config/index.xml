@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Config on Moeomu博客</title><link>https://blog.moeomu.com/zh-cn/categories/config/</link><description>Recent content in Config on Moeomu博客</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 27 Sep 2021 13:56:01 +0800</lastBuildDate><atom:link href="https://blog.moeomu.com/zh-cn/categories/config/index.xml" rel="self" type="application/rss+xml"/><item><title>NodeJS源配置</title><link>https://blog.moeomu.com/zh-cn/posts/nodejs%E6%BA%90%E9%85%8D%E7%BD%AE/</link><pubDate>Mon, 27 Sep 2021 13:56:01 +0800</pubDate><guid>https://blog.moeomu.com/zh-cn/posts/nodejs%E6%BA%90%E9%85%8D%E7%BD%AE/</guid><description>&lt;p>本文来源：&lt;a class="link" href="https://blog.moeomu.com/zh-cn/posts/nodejs%e6%ba%90%e9%85%8d%e7%bd%ae/" >Moeomu的博客&lt;/a>&lt;/p>
+&lt;h2 id="安装">安装&lt;/h2>
+&lt;blockquote>
+&lt;p>Debain(Ubuntu, etc.)&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">apt install node
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">apt install yarn
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>macOS&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">brew install node
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">brew install yarn
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="配置镜像源">配置镜像源&lt;/h2>
+&lt;h3 id="设置为淘宝镜像源">设置为淘宝镜像源&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">npm config &lt;span class="nb">set&lt;/span> registry https://registry.npm.taobao.org/
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">yarn config &lt;span class="nb">set&lt;/span> registry https://registry.npm.taobao.org/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="重置为官方镜像源">重置为官方镜像源&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">npm config &lt;span class="nb">set&lt;/span> registry https://registry.npmjs.org/
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">yarn config &lt;span class="nb">set&lt;/span> registry https://registry.yarnpkg.com/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>macOS关闭内置屏幕</title><link>https://blog.moeomu.com/zh-cn/posts/macos%E5%85%B3%E9%97%AD%E5%86%85%E7%BD%AE%E5%B1%8F%E5%B9%95/</link><pubDate>Thu, 16 Sep 2021 17:00:00 +0800</pubDate><guid>https://blog.moeomu.com/zh-cn/posts/macos%E5%85%B3%E9%97%AD%E5%86%85%E7%BD%AE%E5%B1%8F%E5%B9%95/</guid><description>&lt;p>本文来源：&lt;a class="link" href="https://blog.moeomu.com/zh-cn/posts/macos%e5%85%b3%e9%97%ad%e5%86%85%e7%bd%ae%e5%b1%8f%e5%b9%95/" >Moeomu的博客&lt;/a>&lt;/p>
+&lt;h2 id="磁铁大法">磁铁大法&lt;/h2>
+&lt;p>寻找两块磁铁，放置在 MacBook的音响附近的位置，欺骗系统合盖检测从而实现关闭内置屏幕&lt;/p>
+&lt;h2 id="nvram启动设置法">NVRAM启动设置法&lt;/h2>
+&lt;blockquote>
+&lt;p>此方法从驱动层面实现了将画面单独显示在外接屏幕上&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="启用">启用&lt;/h3>
+&lt;ul>
+&lt;li>重新启动，按着&lt;code>Command+R&lt;/code>按键不放&lt;/li>
+&lt;li>输入密码进入启动设置-终端&lt;/li>
+&lt;li>输入命令&lt;code>nvram boot-args=&amp;quot;niog=1&amp;quot;&lt;/code>&lt;/li>
+&lt;li>连接外接显示器，连接电源，重新启动&lt;/li>
+&lt;li>启动后输入用户密码立刻合盖，随后看到外接屏有画面，打开MacBook的盖子，成功&lt;/li>
+&lt;/ul>
+&lt;h3 id="还原">还原&lt;/h3>
+&lt;ul>
+&lt;li>重新启动，按着&lt;code>Command+R&lt;/code>按键不放&lt;/li>
+&lt;li>输入密码进入启动设置-终端&lt;/li>
+&lt;li>输入命令&lt;code>nvram -d boot-args&lt;/code>&lt;/li>
+&lt;li>重新启动&lt;/li>
+&lt;/ul></description></item><item><title>Windows-GitGPG密钥配置</title><link>https://blog.moeomu.com/zh-cn/posts/windows-gitgpg%E5%AF%86%E9%92%A5%E9%85%8D%E7%BD%AE/</link><pubDate>Sat, 05 Jun 2021 08:50:00 +0800</pubDate><guid>https://blog.moeomu.com/zh-cn/posts/windows-gitgpg%E5%AF%86%E9%92%A5%E9%85%8D%E7%BD%AE/</guid><description>&lt;p>本文来源：&lt;a class="link" href="https://blog.moeomu.com/zh-cn/posts/windows-gitgpg%e5%af%86%e9%92%a5%e9%85%8d%e7%bd%ae/" >Moeomu的博客&lt;/a>&lt;/p>
+&lt;h2 id="下载gpg4win">下载GPG4WIN&lt;/h2>
+&lt;p>下载链接：&lt;a class="link" href="https://www.gpg4win.org/thanks-for-download.html" target="_blank" rel="noopener"
+>gpg4win&lt;/a>&lt;/p>
+&lt;h2 id="创建和应用gpg密钥">创建和应用GPG密钥&lt;/h2>
+&lt;h3 id="创建gpg密钥">创建GPG密钥&lt;/h3>
+&lt;ul>
+&lt;li>创建：&lt;code>gpg --full-generate-key&lt;/code>&lt;/li>
+&lt;li>密钥长度：&lt;code>4096&lt;/code>&lt;/li>
+&lt;li>输入用户名、邮箱&lt;/li>
+&lt;li>列出所有密钥：&lt;code>gpg --list-secret-keys --keyid-format=long&lt;/code>&lt;/li>
+&lt;li>根据keyid导出密钥：&lt;code>gpg --armor --export KEYID&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h3 id="应用密钥">应用密钥&lt;/h3>
+&lt;ul>
+&lt;li>将密钥导入Github和Gitee&lt;/li>
+&lt;/ul>
+&lt;h2 id="配置git-windows">配置Git Windows&lt;/h2>
+&lt;ul>
+&lt;li>配置默认用户名和邮箱，需要和创建GPG时设定的值保持一致
+&lt;ul>
+&lt;li>&lt;code>git config --global user.name USERNAME&lt;/code>&lt;/li>
+&lt;li>&lt;code>git config --global user.email EMAIL&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>配置密钥
+&lt;ul>
+&lt;li>&lt;code>git config --global user.signingKey KEYID&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>启用全局加密签名
+&lt;ul>
+&lt;li>&lt;code>git config --global commit.gpgSign true&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul></description></item><item><title>Homebrew常用软件</title><link>https://blog.moeomu.com/zh-cn/posts/homebrew%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6/</link><pubDate>Tue, 01 Jun 2021 09:31:00 +0800</pubDate><guid>https://blog.moeomu.com/zh-cn/posts/homebrew%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6/</guid><description>&lt;p>本文来源：&lt;a class="link" href="https://blog.moeomu.com/zh-cn/posts/homebrew%e5%b8%b8%e7%94%a8%e8%bd%af%e4%bb%b6/" >Moeomu的博客&lt;/a>&lt;/p>
+&lt;h2 id="list">List&lt;/h2>
+&lt;blockquote>
+&lt;p>Formulae&lt;/p>
+&lt;/blockquote>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>包名&lt;/th>
+&lt;th>用途&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>cmake&lt;/td>
+&lt;td>auto-compile&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>ffmpeg&lt;/td>
+&lt;td>video processor&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>gdb&lt;/td>
+&lt;td>cpp debugger&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>gpg&lt;/td>
+&lt;td>gnupg&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>htop&lt;/td>
+&lt;td>processor monitor&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>pandoc&lt;/td>
+&lt;td>convert file&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>python&lt;/td>
+&lt;td>python3&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>unar&lt;/td>
+&lt;td>decompress&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>you-get&lt;/td>
+&lt;td>web video downloader&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>zsh&lt;/td>
+&lt;td>z-shell&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;blockquote>
+&lt;p>Casks&lt;/p>
+&lt;/blockquote>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>包名&lt;/th>
+&lt;th>用途&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>clashx&lt;/td>
+&lt;td>proxy tool&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>iina&lt;/td>
+&lt;td>video player&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>mounty&lt;/td>
+&lt;td>NTFS disk loader&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>oracle-jdk&lt;/td>
+&lt;td>java development kit&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table></description></item><item><title>macOS-GitGPG密钥配置</title><link>https://blog.moeomu.com/zh-cn/posts/macos-gitgpg%E5%AF%86%E9%92%A5%E9%85%8D%E7%BD%AE/</link><pubDate>Tue, 25 May 2021 07:55:00 +0800</pubDate><guid>https://blog.moeomu.com/zh-cn/posts/macos-gitgpg%E5%AF%86%E9%92%A5%E9%85%8D%E7%BD%AE/</guid><description>&lt;p>本文来源：&lt;a class="link" href="https://blog.moeomu.com/zh-cn/posts/macos-gitgpg%e5%af%86%e9%92%a5%e9%85%8d%e7%bd%ae/" >Moeomu的博客&lt;/a>&lt;/p>
+&lt;h2 id="关于github-gpg密钥验证">关于GitHub GPG密钥验证&lt;/h2>
+&lt;h3 id="开启commit签名">开启Commit签名&lt;/h3>
+&lt;p>GitHub有个新的“警惕模式”，启用后GPG密钥需要签名认证的commit才会显示“Verity”，启用方法如下&lt;/p>
+&lt;ul>
+&lt;li>首先创建GPG密钥（&lt;a class="link" href="https://docs.github.com/en/github/authenticating-to-github/managing-commit-signature-verification/generating-a-new-gpg-key" target="_blank" rel="noopener"
+>GitHub官方Docs&lt;/a>有详细方法，不再赘述）&lt;/li>
+&lt;li>列出GPG密钥的特征码：&lt;code>gpg -K --keyid-format LONG&lt;/code>，将&lt;strong>keyid&lt;/strong>记录&lt;/li>
+&lt;li>告知git使用此GPG密钥：&lt;code>git config user.signingkey your_keyid&lt;/code>&lt;/li>
+&lt;li>本地git的用户名和邮箱需要和GPG密钥生成时填入的相同：&lt;code>git config user.name name&lt;/code>，&lt;code>git config user.email email&lt;/code>&lt;/li>
+&lt;li>启用本地git的Commit签名：&lt;code>git config commit.gpgsign true&lt;/code>&lt;/li>
+&lt;li>Commit签名加入-S选项：&lt;code>git commit -S -m message&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h3 id="发生致命错误-无法commit-macos">发生致命错误-无法Commit-macOS&lt;/h3>
+&lt;h4 id="问题如下复现于macos-1131中">问题如下，复现于macOS 11.3.1中&lt;/h4>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">error: gpg failed to sign the data
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">fatal: failed to write commit object
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="macos中的解决办法">macOS中的解决办法&lt;/h4>
+&lt;ul>
+&lt;li>更新&amp;amp;安装&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">brew upgrade gnupg &lt;span class="c1"># This has a make step which takes a while&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">brew link --overwrite gnupg
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">brew install pinentry-mac
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;pinentry-program /usr/local/bin/pinentry-mac&amp;#34;&lt;/span> &amp;gt;&amp;gt; ~/.gnupg/gpg-agent.conf
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">killall gpg-agent
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git config --global gpg.program gpg &lt;span class="c1"># perhaps you had this already? On linux maybe gpg2&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git config --global commit.gpgsign &lt;span class="nb">true&lt;/span> &lt;span class="c1"># if you want to sign every commit&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>再次签名&lt;/li>
+&lt;li>查看commit状态：&lt;code>git log --show-signature -1&lt;/code>&lt;/li>
+&lt;/ul></description></item><item><title>macOS-pd16修复网络</title><link>https://blog.moeomu.com/zh-cn/posts/macos-pd16%E4%BF%AE%E5%A4%8D%E7%BD%91%E7%BB%9C/</link><pubDate>Wed, 16 Dec 2020 13:42:00 +0800</pubDate><guid>https://blog.moeomu.com/zh-cn/posts/macos-pd16%E4%BF%AE%E5%A4%8D%E7%BD%91%E7%BB%9C/</guid><description>&lt;p>本文来源：&lt;a class="link" href="https://blog.moeomu.com/zh-cn/posts/macos-pd16%e4%bf%ae%e5%a4%8d%e7%bd%91%e7%bb%9c/" >Moeomu的博客&lt;/a>&lt;/p>
+&lt;h2 id="前奏">前奏&lt;/h2>
+&lt;ul>
+&lt;li>在macOS Big Sur下可以使用&lt;/li>
+&lt;li>之前是使用命令启动的不完美解决办法，还会导致一系列权限问题，现在终于完美了&lt;/li>
+&lt;/ul>
+&lt;h2 id="解决方案">解决方案&lt;/h2>
+&lt;ul>
+&lt;li>最高权限编辑文件&lt;code>/Library/Preferences/Parallels/network.desktop.xml&lt;/code>&lt;/li>
+&lt;li>将&lt;code>UseKextless&lt;/code>字段的值从&lt;code>-1&lt;/code>改为&lt;code>0&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>注意：这个值可能并不是所有人-1，也可能并不是所有人改为0都行，勇于尝试嘛&lt;/p>
+&lt;/blockquote></description></item><item><title>Zsh 安装</title><link>https://blog.moeomu.com/zh-cn/posts/zsh-%E5%AE%89%E8%A3%85/</link><pubDate>Tue, 10 Nov 2020 19:43:00 +0800</pubDate><guid>https://blog.moeomu.com/zh-cn/posts/zsh-%E5%AE%89%E8%A3%85/</guid><description>&lt;p>zsh install and config&lt;/p>
+&lt;p>本文来源：&lt;a class="link" href="https://blog.moeomu.com/zh-cn/posts/zsh-%e5%ae%89%e8%a3%85/" >Moeomu的博客&lt;/a>&lt;/p>
+&lt;h2 id="安装zsh">安装zsh&lt;/h2>
+&lt;ul>
+&lt;li>macOS: &lt;code>brew install zsh&lt;/code>&lt;/li>
+&lt;li>Linux
+&lt;ul>
+&lt;li>Arch Linux: &lt;code>sudo pacman -S zsh&lt;/code>&lt;/li>
+&lt;li>Ubuntu: &lt;code>sudo apt install zsh&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="克隆git仓库clone-git-repo">克隆Git仓库(clone git repo)&lt;/h2>
+&lt;ul>
+&lt;li>China mainland: &lt;code>git clone https://gitee.com/mirrors/oh-my-zsh.git&lt;/code>&lt;/li>
+&lt;li>Global: &lt;code>git clone https://github.com/ohmyzsh/ohmyzsh.git&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="配置zshconfig">配置zsh(config)&lt;/h2>
+&lt;h3 id="设置为默认shellset-default-shell">设置为默认shell(set default shell)&lt;/h3>
+&lt;ul>
+&lt;li>Set default shell: &lt;code>chsh -s /usr/bin/zsh&lt;/code>&lt;/li>
+&lt;li>Rename: &lt;code>mv oh-my-zsh .oh-my-zsh&lt;/code>&lt;/li>
+&lt;li>Set user profile: &lt;code>cp .oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h3 id="自动补全插件auto-suggestions-plugin">自动补全插件(auto suggestions plugin)&lt;/h3>
+&lt;ul>
+&lt;li>&lt;code>git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions&lt;/code>&lt;/li>
+&lt;li>edit &lt;code>~/.zshrc&lt;/code>:
+&lt;ul>
+&lt;li>&lt;code>plugins=(git)&lt;/code>=&amp;gt;&lt;code>plugins=(git zsh-autosuggestions)&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul></description></item></channel></rss>

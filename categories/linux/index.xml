@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on Moeomu Blog</title><link>https://blog.moeomu.com/categories/linux/</link><description>Recent content in Linux on Moeomu Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 09 Nov 2021 09:22:01 +0800</lastBuildDate><atom:link href="https://blog.moeomu.com/categories/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>Problems Encountered In Installing Arch on ROGLaptop</title><link>https://blog.moeomu.com/posts/problems-encountered-in-installing-arch-on-roglaptop/</link><pubDate>Tue, 09 Nov 2021 09:22:01 +0800</pubDate><guid>https://blog.moeomu.com/posts/problems-encountered-in-installing-arch-on-roglaptop/</guid><description>&lt;p>Source of this article: &lt;a class="link" href="https://blog.moeomu.com/posts/problems-encountered-in-installing-arch-on-roglaptop/" >MoeomuBlog&lt;/a>&lt;/p>
+&lt;h2 id="no-display-after-installing-nvidia-graphics-card">No display after installing NVIDIA graphics card&lt;/h2>
+&lt;h3 id="installed-packages">Installed packages&lt;/h3>
+&lt;ul>
+&lt;li>&lt;code>xf86-video-intel&lt;/code>&lt;/li>
+&lt;li>&lt;code>mesa&lt;/code>&lt;/li>
+&lt;li>&lt;code>nvidia&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h3 id="solution">Solution&lt;/h3>
+&lt;ul>
+&lt;li>remove package: &lt;code>sudo pacman -R xf86-video-intel&lt;/code>&lt;/li>
+&lt;li>remove xconfig: &lt;code>sudo rm /etc/X11/xorg.conf&lt;/code>&lt;/li>
+&lt;li>edit xconfig: &lt;code>sudo vim /etc/X11/xorg.conf.d/10-nvidia-drm-outputclass.conf&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>10-nvidia-drm-outputclass.conf&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">Section &amp;#34;OutputClass&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Identifier &amp;#34;intel&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> MatchDriver &amp;#34;i915&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Driver &amp;#34;modesetting&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">EndSection
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Section &amp;#34;OutputClass&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Identifier &amp;#34;nvidia&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> MatchDriver &amp;#34;nvidia-drm&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Driver &amp;#34;nvidia&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Option &amp;#34;AllowEmptyInitialConfiguration&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Option &amp;#34;PrimaryGPU&amp;#34; &amp;#34;yes&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ModulePath &amp;#34;/usr/lib/nvidia/xorg&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ModulePath &amp;#34;/usr/lib/xorg/modules&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">EndSection
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>reboot&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>More references: &lt;a class="link" href="https://wiki.archlinux.org/title/PRIME" target="_blank" rel="noopener"
+>ArchWiki-PRIME&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="no-sound">No sound&lt;/h2>
+&lt;ul>
+&lt;li>edit file:&lt;code>sudo vim /etc/modprobe.d/alsa-base.conf&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>alsa-base.conf&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">options snd-hda-intel model=asus-zenbook
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Problems that still exist: The volume can only be 0% or 100%, but the application volume can be adjusted individually.&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>More references: &lt;a class="link" href="https://askubuntu.com/questions/1276428/no-sound-alc294-asus-rog-strix-512-ubuntu-20-04-01" target="_blank" rel="noopener"
+>No sound ALC294 Asus ROG Strix 512 Ubuntu 20.04.01&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="the-wireless-network-is-unstable">The wireless network is unstable&lt;/h2>
+&lt;h3 id="installed-packages-1">Installed packages&lt;/h3>
+&lt;ul>
+&lt;li>&lt;code>dhcpcd&lt;/code>&lt;/li>
+&lt;li>&lt;code>NetworkManager&lt;/code>&lt;/li>
+&lt;li>&lt;code>iwd&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h3 id="solution-1">Solution&lt;/h3>
+&lt;ul>
+&lt;li>stop and disable service:
+&lt;ul>
+&lt;li>&lt;code>sudo systemctl stop dhcpcd&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo systemctl disable dhcpcd&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo systemctl stop iwd&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo systemctl disable iwd&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>remove package: &lt;code>sudo pacman -R dhcpcd&lt;/code>&lt;/li>
+&lt;li>reboot&lt;/li>
+&lt;/ul>
+&lt;h3 id="fundamental-problem">Fundamental problem&lt;/h3>
+&lt;p>The fundamental problem is that dhcpcd conflicts with NetworkManager.&lt;/p></description></item><item><title>Problem summary of installing Ubuntu on AsusStrixScarG532</title><link>https://blog.moeomu.com/posts/problem-summary-of-installing-ubuntu-on-asusstrixscarg532/</link><pubDate>Sat, 16 Oct 2021 11:22:01 +0800</pubDate><guid>https://blog.moeomu.com/posts/problem-summary-of-installing-ubuntu-on-asusstrixscarg532/</guid><description>&lt;p>Source of this article: &lt;a class="link" href="https://blog.moeomu.com/posts/problem-summary-of-installing-ubuntu-on-asusstrixscarg532/" >MoeomuBlog&lt;/a>&lt;/p>
+&lt;h2 id="install-nvidia-driver-on-ubuntu-with-securityboot">Install Nvidia driver on Ubuntu with SecurityBoot&lt;/h2>
+&lt;ul>
+&lt;li>Install Nvidia graphic card driver during install ubuntu
+&lt;ol>
+&lt;li>During installation, make sure to select the &lt;code>Install third-party software for graphics and Wi-Fi hardware and addition media formats&lt;/code> in &lt;code>Updates and other software&lt;/code> screen.&lt;/li>
+&lt;li>Select &lt;code>Configure Secure Boot&lt;/code>, and set password.&lt;/li>
+&lt;li>Continue Ubuntu installation as normal.&lt;/li>
+&lt;li>During the first reboot, &lt;code>Perform MOK management&lt;/code> screen will showup. Select &lt;code>Enroll MOK&lt;/code> option.&lt;/li>
+&lt;li>Select &lt;code>Continue&lt;/code>, then, &lt;code>Yes&lt;/code>.&lt;/li>
+&lt;li>&lt;code>Enroll the key(s)?&lt;/code> screen will present. Enter the password from Step 2.&lt;/li>
+&lt;li>OK and reboot.&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>Install the &amp;ldquo;third party&amp;rdquo; software option after skipped it in the ubuntu installer
+&lt;ol>
+&lt;li>&lt;code>sudo apt-get install ubuntu-restricted-extras&lt;/code>&lt;/li>
+&lt;li>Refer to above&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="sound-not-working">Sound Not Working&lt;/h2>
+&lt;ol>
+&lt;li>edit&lt;code>/etc/modprobe.d/alsa-base.conf&lt;/code>&lt;/li>
+&lt;li>Add a line &lt;code>options snd-hda-intel model=asus-zenbook&lt;/code> at the end of the file&lt;/li>
+&lt;/ol></description></item></channel></rss>

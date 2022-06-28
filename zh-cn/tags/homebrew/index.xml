@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Homebrew on Moeomu博客</title><link>https://blog.moeomu.com/zh-cn/tags/homebrew/</link><description>Recent content in Homebrew on Moeomu博客</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 01 Jun 2021 09:31:00 +0800</lastBuildDate><atom:link href="https://blog.moeomu.com/zh-cn/tags/homebrew/index.xml" rel="self" type="application/rss+xml"/><item><title>Homebrew常用软件</title><link>https://blog.moeomu.com/zh-cn/posts/homebrew%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6/</link><pubDate>Tue, 01 Jun 2021 09:31:00 +0800</pubDate><guid>https://blog.moeomu.com/zh-cn/posts/homebrew%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6/</guid><description>&lt;p>本文来源：&lt;a class="link" href="https://blog.moeomu.com/zh-cn/posts/homebrew%e5%b8%b8%e7%94%a8%e8%bd%af%e4%bb%b6/" >Moeomu的博客&lt;/a>&lt;/p>
+&lt;h2 id="list">List&lt;/h2>
+&lt;blockquote>
+&lt;p>Formulae&lt;/p>
+&lt;/blockquote>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>包名&lt;/th>
+&lt;th>用途&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>cmake&lt;/td>
+&lt;td>auto-compile&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>ffmpeg&lt;/td>
+&lt;td>video processor&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>gdb&lt;/td>
+&lt;td>cpp debugger&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>gpg&lt;/td>
+&lt;td>gnupg&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>htop&lt;/td>
+&lt;td>processor monitor&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>pandoc&lt;/td>
+&lt;td>convert file&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>python&lt;/td>
+&lt;td>python3&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>unar&lt;/td>
+&lt;td>decompress&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>you-get&lt;/td>
+&lt;td>web video downloader&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>zsh&lt;/td>
+&lt;td>z-shell&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;blockquote>
+&lt;p>Casks&lt;/p>
+&lt;/blockquote>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>包名&lt;/th>
+&lt;th>用途&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>clashx&lt;/td>
+&lt;td>proxy tool&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>iina&lt;/td>
+&lt;td>video player&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>mounty&lt;/td>
+&lt;td>NTFS disk loader&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>oracle-jdk&lt;/td>
+&lt;td>java development kit&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table></description></item><item><title>Homebrew和Brewcask的安装</title><link>https://blog.moeomu.com/zh-cn/posts/homebrew%E5%92%8Cbrewcask%E7%9A%84%E5%AE%89%E8%A3%85/</link><pubDate>Tue, 10 Nov 2020 19:43:00 +0800</pubDate><guid>https://blog.moeomu.com/zh-cn/posts/homebrew%E5%92%8Cbrewcask%E7%9A%84%E5%AE%89%E8%A3%85/</guid><description>&lt;p>大家请注意时效性：&lt;strong>本文写于2020/11/10&lt;/strong>&amp;amp;&amp;amp;&lt;strong>本文更新于2021/07/02&lt;/strong>&lt;/p>
+&lt;p>本文来源：&lt;a class="link" href="https://blog.moeomu.com/zh-cn/posts/homebrew%e5%92%8cbrewcask%e7%9a%84%e5%ae%89%e8%a3%85/" >Moeomu的博客&lt;/a>&lt;/p>
+&lt;h2 id="安装git">安装git&lt;/h2>
+&lt;ul>
+&lt;li>方法一：安装XCode Terminal:&lt;code>xcode-select --install&lt;/code>&lt;/li>
+&lt;li>方法二：直接去git网站下载git的macOS安装包&lt;/li>
+&lt;/ul>
+&lt;h2 id="安装homebrew">安装HomeBrew&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>首先下载原版&lt;a class="link" href="https://cdn.jsdelivr.net/gh/Homebrew/install@master/install.sh" target="_blank" rel="noopener"
+>installer.sh&lt;/a>的jsDelivr CDN镜像&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>输入下列指令运行：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">git config --global url.&lt;span class="s2">&amp;#34;https://mirrors.ustc.edu.cn/homebrew-core.git&amp;#34;&lt;/span>.insteadOf &lt;span class="s2">&amp;#34;https://github.com/Homebrew/homebrew-core&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git config --global url.&lt;span class="s2">&amp;#34;https://mirrors.ustc.edu.cn/linuxbrew-core.git&amp;#34;&lt;/span>.insteadOf &lt;span class="s2">&amp;#34;https://github.com/Homebrew/linuxbrew-core&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git config --global url.&lt;span class="s2">&amp;#34;https://mirrors.ustc.edu.cn/brew.git&amp;#34;&lt;/span>.insteadOf &lt;span class="s2">&amp;#34;https://github.com/Homebrew/brew&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">chmod +x install.sh
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">HOMEBREW_BOTTLE_DOMAIN&lt;/span>&lt;span class="o">=&lt;/span>https://mirrors.ustc.edu.cn/homebrew-bottles ./install.sh
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>通过USTC的git源克隆Homebrew-Cask项目&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>cd /usr/local/Homebrew/Library/Taps/homebrew&lt;/code>&lt;/li>
+&lt;li>&lt;code>git clone https://mirrors.ustc.edu.cn/homebrew-cask.git&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="检查源配置">检查源配置&lt;/h2>
+&lt;ul>
+&lt;li>查看brew镜像源：&lt;code>git -C &amp;quot;$(brew --repo)&amp;quot; remote -v&lt;/code>&lt;/li>
+&lt;li>查看homebrew-core镜像源：&lt;code>git -C &amp;quot;$(brew --repo homebrew/core)&amp;quot; remote -v&lt;/code>&lt;/li>
+&lt;li>查看homebrew-cask镜像源：&lt;code>git -C &amp;quot;$(brew --repo homebrew/cask)&amp;quot; remote -v&lt;/code>&lt;/li>
+&lt;li>合格的标准是这些源的地址全是USTC的网址&lt;/li>
+&lt;/ul>
+&lt;h2 id="update">Update&lt;/h2>
+&lt;ul>
+&lt;li>&lt;code>brew update&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="安装oh-my-zsh非必须">安装Oh-My-Zsh(非必须)&lt;/h2>
+&lt;ul>
+&lt;li>更新zsh：&lt;code>brew install zsh&lt;/code>&lt;/li>
+&lt;li>git克隆oh-my-zsh项目：&lt;code>git clone https://gitee.com/mirrors/oh-my-zsh.git&lt;/code>&lt;/li>
+&lt;li>重命名项目：&lt;code>mv oh-my-zsh .oh-my-zsh&lt;/code>&lt;/li>
+&lt;li>将模版复制到home目录下命名为.zshrc：&lt;code>cp .oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc&lt;/code>&lt;/li>
+&lt;li>退出Terminal，启动Terminal，成功&lt;/li>
+&lt;/ul>
+&lt;h2 id="配置terminal非必须">配置Terminal(非必须)&lt;/h2>
+&lt;ul>
+&lt;li>偏好设置-启动时，打开-使用描述文件新建窗口-Homebrew&lt;/li>
+&lt;li>偏好设置-描述文件-Homebrew-文本-字体-14点&lt;/li>
+&lt;/ul>
+&lt;h2 id="配置terminal代理非必须">配置Terminal代理(非必须)&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">https_proxy&lt;/span>&lt;span class="o">=&lt;/span>http://127.0.0.1:7809
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">http_proxy&lt;/span>&lt;span class="o">=&lt;/span>http://127.0.0.1:7809
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>

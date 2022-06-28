@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ubuntu on Moeomu Blog</title><link>https://blog.moeomu.com/tags/ubuntu/</link><description>Recent content in Ubuntu on Moeomu Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 16 Oct 2021 11:22:01 +0800</lastBuildDate><atom:link href="https://blog.moeomu.com/tags/ubuntu/index.xml" rel="self" type="application/rss+xml"/><item><title>Problem summary of installing Ubuntu on AsusStrixScarG532</title><link>https://blog.moeomu.com/posts/problem-summary-of-installing-ubuntu-on-asusstrixscarg532/</link><pubDate>Sat, 16 Oct 2021 11:22:01 +0800</pubDate><guid>https://blog.moeomu.com/posts/problem-summary-of-installing-ubuntu-on-asusstrixscarg532/</guid><description>&lt;p>Source of this article: &lt;a class="link" href="https://blog.moeomu.com/posts/problem-summary-of-installing-ubuntu-on-asusstrixscarg532/" >MoeomuBlog&lt;/a>&lt;/p>
+&lt;h2 id="install-nvidia-driver-on-ubuntu-with-securityboot">Install Nvidia driver on Ubuntu with SecurityBoot&lt;/h2>
+&lt;ul>
+&lt;li>Install Nvidia graphic card driver during install ubuntu
+&lt;ol>
+&lt;li>During installation, make sure to select the &lt;code>Install third-party software for graphics and Wi-Fi hardware and addition media formats&lt;/code> in &lt;code>Updates and other software&lt;/code> screen.&lt;/li>
+&lt;li>Select &lt;code>Configure Secure Boot&lt;/code>, and set password.&lt;/li>
+&lt;li>Continue Ubuntu installation as normal.&lt;/li>
+&lt;li>During the first reboot, &lt;code>Perform MOK management&lt;/code> screen will showup. Select &lt;code>Enroll MOK&lt;/code> option.&lt;/li>
+&lt;li>Select &lt;code>Continue&lt;/code>, then, &lt;code>Yes&lt;/code>.&lt;/li>
+&lt;li>&lt;code>Enroll the key(s)?&lt;/code> screen will present. Enter the password from Step 2.&lt;/li>
+&lt;li>OK and reboot.&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>Install the &amp;ldquo;third party&amp;rdquo; software option after skipped it in the ubuntu installer
+&lt;ol>
+&lt;li>&lt;code>sudo apt-get install ubuntu-restricted-extras&lt;/code>&lt;/li>
+&lt;li>Refer to above&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="sound-not-working">Sound Not Working&lt;/h2>
+&lt;ol>
+&lt;li>edit&lt;code>/etc/modprobe.d/alsa-base.conf&lt;/code>&lt;/li>
+&lt;li>Add a line &lt;code>options snd-hda-intel model=asus-zenbook&lt;/code> at the end of the file&lt;/li>
+&lt;/ol></description></item></channel></rss>
